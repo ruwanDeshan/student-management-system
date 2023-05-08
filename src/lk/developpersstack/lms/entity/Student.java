@@ -1,9 +1,12 @@
 package lk.developpersstack.lms.entity;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 @Entity
 public class Student {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "student_id")
     private long id;
     private String name;
     private String contact;

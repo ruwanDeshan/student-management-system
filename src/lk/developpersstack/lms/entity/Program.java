@@ -1,9 +1,12 @@
 package lk.developpersstack.lms.entity;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 @Entity
 public class Program {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "program_id")
     private long id;
     private String title;
     private int credit;
