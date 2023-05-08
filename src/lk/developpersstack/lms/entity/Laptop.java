@@ -12,7 +12,10 @@ public class Laptop {
 
     //------------mapping------------------
     @OneToOne
-    @JoinColumn(name = "student_id")
+    @JoinColumn(
+            name = "student_id",
+            unique = true
+    )
     private Student student;
     //------------mapping------------------
 

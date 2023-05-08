@@ -10,12 +10,29 @@ public class Book {
     private long id;
     private String title;
 
+    //------------mapping------------------
+
+    @ManyToOne
+    @JoinColumn(
+            name = "student_id"
+    )
+    private Student student;
+    //------------mapping------------------
+
     public Book() {
     }
 
     public Book(long id, String title) {
         this.id = id;
         this.title = title;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
     public long getId() {

@@ -1,6 +1,8 @@
 package lk.developpersstack.lms.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Student {
@@ -17,7 +19,18 @@ public class Student {
             fetch = FetchType.EAGER
     )
     private  Laptop laptop;
+
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            mappedBy = "student",
+            fetch = FetchType.EAGER
+    )
+    private List<Book> books=new ArrayList<>();
+
+    @ManyToMany(mappedBy = "students")
+    private List<Program> programs=new ArrayList<>();
     //------------mapping------------------
+
 
     public Student() {
     }
@@ -26,6 +39,22 @@ public class Student {
         this.id = id;
         this.name = name;
         this.contact = contact;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
+
+    public List<Program> getPrograms() {
+        return programs;
+    }
+
+    public void setPrograms(List<Program> programs) {
+        this.programs = programs;
     }
 
     public Laptop getLaptop() {
