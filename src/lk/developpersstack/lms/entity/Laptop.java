@@ -10,12 +10,26 @@ public class Laptop {
     private long id;
     private String brand;
 
+    //------------mapping------------------
+    @OneToOne
+    @JoinColumn(name = "student_id")
+    private Student student;
+    //------------mapping------------------
+
     public Laptop() {
     }
 
     public Laptop(long id, String brand) {
         this.id = id;
         this.brand = brand;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
     public long getId() {

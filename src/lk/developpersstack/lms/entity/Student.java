@@ -11,6 +11,14 @@ public class Student {
     private String name;
     private String contact;
 
+    //------------mapping------------------
+    @OneToOne(cascade = CascadeType.ALL,
+            mappedBy = "student",
+            fetch = FetchType.EAGER
+    )
+    private  Laptop laptop;
+    //------------mapping------------------
+
     public Student() {
     }
 
@@ -18,6 +26,14 @@ public class Student {
         this.id = id;
         this.name = name;
         this.contact = contact;
+    }
+
+    public Laptop getLaptop() {
+        return laptop;
+    }
+
+    public void setLaptop(Laptop laptop) {
+        this.laptop = laptop;
     }
 
     public long getId() {
