@@ -2,13 +2,20 @@ package lk.developpersstack.lms.dao.custom.impl;
 
 import lk.developpersstack.lms.dao.custom.StudentDao;
 import lk.developpersstack.lms.entity.Student;
+import lk.developpersstack.lms.util.HibernateUtil;
+import org.hibernate.Session;
 
 import java.sql.SQLException;
+import java.util.List;
 
-public class StudentImpl implements StudentDao {
+public class StudentDaoImpl implements StudentDao {
     @Override
     public void save(Student student) throws SQLException, ClassNotFoundException {
-
+        try(Session session= HibernateUtil.getInstance().getSession()){
+            session.beginTransaction();
+            session.save(student);
+            session.getTransaction().commit();
+        }
     }
 
     @Override
@@ -27,7 +34,7 @@ public class StudentImpl implements StudentDao {
     }
 
     @Override
-    public void findAll() throws SQLException, ClassNotFoundException {
-
+    public List<Student> findAll() throws SQLException, ClassNotFoundException {
+        return null;
     }
 }

@@ -1,45 +1,35 @@
-package lk.developpersstack.lms.entity;
+package lk.developpersstack.lms.dto;
 
-import javax.persistence.*;
+import lk.developpersstack.lms.entity.Book;
+import lk.developpersstack.lms.entity.Laptop;
+import lk.developpersstack.lms.entity.Program;
+
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-public class Student {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "student_id")
+public class StudentDto {
     private long id;
     private String name;
     private String contact;
-
-    //------------mapping------------------
-    @OneToOne(
-            cascade = CascadeType.ALL,
-            mappedBy = "student",
-            fetch = FetchType.EAGER
-    )
-    private  Laptop laptop;
-
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            mappedBy = "student",
-            fetch = FetchType.EAGER
-    )
+    private Laptop laptop;
     private List<Book> books=new ArrayList<>();
-
-    @ManyToMany(mappedBy = "students")
     private List<Program> programs=new ArrayList<>();
-    //------------mapping------------------
 
-
-    public Student() {
+    public StudentDto() {
     }
 
-    public Student(long id, String name, String contact) {
+    public StudentDto(long id, String name, String contact) {
         this.id = id;
         this.name = name;
         this.contact = contact;
+    }
+
+    public Laptop getLaptop() {
+        return laptop;
+    }
+
+    public void setLaptop(Laptop laptop) {
+        this.laptop = laptop;
     }
 
     public List<Book> getBooks() {
@@ -56,14 +46,6 @@ public class Student {
 
     public void setPrograms(List<Program> programs) {
         this.programs = programs;
-    }
-
-    public Laptop getLaptop() {
-        return laptop;
-    }
-
-    public void setLaptop(Laptop laptop) {
-        this.laptop = laptop;
     }
 
     public long getId() {
