@@ -7,12 +7,22 @@ import lk.developpersstack.lms.bo.BoFactory;
 import lk.developpersstack.lms.bo.custom.StudentBo;
 import lk.developpersstack.lms.dto.StudentDto;
 
+import java.sql.SQLException;
+
 public class MainFormController {
 
     public TextField txtName;
     public TextField txtContact;
 
     private final StudentBo studentBo= BoFactory.getInstance().getBo(BoFactory.BoType.STUDENT);
+
+    public void initialize() throws SQLException, ClassNotFoundException {
+        loadAllStudents();
+    }
+
+    private void loadAllStudents() throws SQLException, ClassNotFoundException {
+        System.out.println(studentBo.findAllStudent());
+    }
 
     public void btnSaveStudentOnAction(ActionEvent actionEvent) {
         StudentDto dto=new StudentDto();

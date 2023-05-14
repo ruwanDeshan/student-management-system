@@ -35,6 +35,8 @@ public class StudentDaoImpl implements StudentDao {
 
     @Override
     public List<Student> findAll() throws SQLException, ClassNotFoundException {
-        return null;
+        try(Session session= HibernateUtil.getInstance().getSession()){
+           return session.createQuery("FROM Student", Student.class).list();
+        }
     }
 }

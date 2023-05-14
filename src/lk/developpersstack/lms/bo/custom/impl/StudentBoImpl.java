@@ -7,6 +7,8 @@ import lk.developpersstack.lms.dto.StudentDto;
 import lk.developpersstack.lms.entity.Student;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StudentBoImpl implements StudentBo {
 
@@ -17,5 +19,17 @@ public class StudentBoImpl implements StudentBo {
         student.setName(dto.getName());
         student.setContact(dto.getContact());
         studentDao.save(student);
+    }
+
+    @Override
+    public List<StudentDto> findAllStudent() throws SQLException, ClassNotFoundException {
+        ArrayList<StudentDto> dtos=new ArrayList<>();
+        for (Student s:studentDao.findAll()) {
+            StudentDto dto=new StudentDto(s.getId(),s.getName(),s.getContact());
+            dto.setBooks(s.getBooks());
+            dto.setLaptop(s.getLaptop());
+            dtos.add(dto);
+        }
+        return dtos;
     }
 }
