@@ -4,6 +4,7 @@ import lk.developpersstack.lms.dao.custom.StudentDao;
 import lk.developpersstack.lms.entity.Student;
 import lk.developpersstack.lms.util.HibernateUtil;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -30,7 +31,12 @@ public class StudentDaoImpl implements StudentDao {
 
     @Override
     public void delete(Long aLong) throws SQLException, ClassNotFoundException {
-
+        try(Session session= HibernateUtil.getInstance().getSession()){
+            session.beginTransaction();
+            Query query=session.createQuery("DELETE FROM Student WHERE id=:selectedId");
+            query.setParameter("selectedId",aLong);
+            query.executeUpdate();
+        }
     }
 
     @Override
