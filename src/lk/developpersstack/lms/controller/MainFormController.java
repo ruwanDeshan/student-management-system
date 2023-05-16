@@ -21,11 +21,13 @@ public class MainFormController {
     public TableColumn colName;
     public TableColumn colContact;
 
-    public TableView tblStudent;
+    public TableView<StudentTm> tblStudent;
     public TableColumn colSeeMore;
     public TableColumn colDelete;
     private final StudentBo studentBo= BoFactory.getInstance().getBo(BoFactory.BoType.STUDENT);
+    public Button btnStudentSave;
 
+    private StudentTm selectedStudentTm=null;
 
 
     public void initialize() throws SQLException, ClassNotFoundException {
@@ -35,9 +37,22 @@ public class MainFormController {
         colSeeMore.setCellValueFactory(new PropertyValueFactory<>("seeMoreBtn"));
         colDelete.setCellValueFactory(new PropertyValueFactory<>("deleteBtn"));
 
-
         loadAllStudents();
+
+        //----------------Listener---------------------
+        tblStudent.getSelectionModel()
+                .selectedItemProperty()
+                .addListener((observable, oldValue, newValue) -> {
+             if (newValue!=null){
+                 selectedStudentTm=newValue;
+                 txtName.setText(newValue.getName());
+                 txtContact.setText(newValue.getContact());
+                 btnStudentSave.setText("Update Student");
+             }
+        });
+        //----------------Listener---------------------
     }
+
 
     private void loadAllStudents() throws SQLException, ClassNotFoundException {
         ObservableList<StudentTm> obList = FXCollections.observableArrayList();
@@ -68,6 +83,7 @@ public class MainFormController {
             });
         }
         tblStudent.setItems(obList);
+        tblStudent.refresh();
     }
 
     public void btnSaveStudentOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
@@ -75,13 +91,36 @@ public class MainFormController {
         dto.setName(txtName.getText());
         dto.setContact(txtContact.getText());
 
-        try {
-            studentBo.saveStudent(dto);
-            new Alert(Alert.AlertType.INFORMATION,"Student saved!").show();
-        }catch (Exception e){
-            new Alert(Alert.AlertType.ERROR,"Try Again").show();
+        if (btnStudentSave.getText().equals("Update Student")){
+            if (selectedStudentTm==null){
+                new Alert(Alert.AlertType.ERROR,"Try Again").show();
+                return;
+            }
+            try {
+                dto.setId(selectedStudentTm.getId());
+                studentBo.updateStudent(dto);
+                new Alert(Alert.AlertType.INFORMATION,"Student updated!").show();
+                selectedStudentTm=null;
+                btnStudentSave.setText("Save Student");
+                loadAllStudents();
+            }catch (Exception e){
+                new Alert(Alert.AlertType.ERROR,"Try Again").show();
+            }
+        }else {
+            try {
+                studentBo.saveStudent(dto);
+                new Alert(Alert.AlertType.INFORMATION,"Student saved!").show();
+                loadAllStudents();
+            }catch (Exception e){
+                new Alert(Alert.AlertType.ERROR,"Try Again").show();
+            }
         }
-        loadAllStudents();
+    }
 
+    public void newStudentOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
+        btnStudentSave.setText("Save Student");
+        selectedStudentTm=null;
+        txtContact.clear();
+        txtName.clear();
     }
 }
