@@ -1,12 +1,10 @@
 package lk.developpersstack.lms.dao.custom.impl;
-
 import lk.developpersstack.lms.dao.custom.StudentDao;
 import lk.developpersstack.lms.entity.Student;
 import lk.developpersstack.lms.exceptions.NotFoundException;
 import lk.developpersstack.lms.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
-
 import java.sql.SQLException;
 import java.util.List;
 
